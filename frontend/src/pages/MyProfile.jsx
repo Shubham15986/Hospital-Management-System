@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { assets } from '../assets/assets'
 import axios from 'axios'
+import { AppContext } from '../context/AppContext'
 
 const MyProfile = () => {
+
+    const { backendUrl } = useContext(AppContext)
 
     const [userData, setUserData] = useState({
         name: "",
@@ -25,7 +28,7 @@ const MyProfile = () => {
             const token = localStorage.getItem('token')
             if (!token) return
 
-            const { data } = await axios.get('http://localhost:4000/api/user/get-profile', { headers: { token } })
+            const { data } = await axios.get(backendUrl + '/api/user/get-profile', { headers: { token } })
             if (data.success) {
                 setUserData(data.userData)
             } else {
@@ -49,7 +52,7 @@ const MyProfile = () => {
             
             if (image) formData.append('image', image)
 
-            const { data } = await axios.post('http://localhost:4000/api/user/update-profile', formData, { headers: { token } })
+            const { data } = await axios.post(backendUrl + '/api/user/update-profile', formData, { headers: { token } })
             if (data.success) {
                 alert(data.message)
                 await getUserProfileData()
