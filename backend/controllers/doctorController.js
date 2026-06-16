@@ -92,7 +92,7 @@ export const appointmentsDoctor = async (req, res) => {
     }
 }
 
-// API to cancel appointment for doctor panel
+
 export const appointmentCancel = async (req, res) => {
     try {
         const { docId, appointmentId } = req.body
@@ -103,7 +103,7 @@ export const appointmentCancel = async (req, res) => {
 
             await appointmentModel.findByIdAndUpdate(appointmentId, { cancelled: true })
 
-            // releasing doctor slot
+          
             const { docId, slotDate, slotTime } = appointmentData
 
             const docData = await DoctorModel.findById(docId)
